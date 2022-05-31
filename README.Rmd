@@ -1,0 +1,58 @@
+---
+output: github_document
+bibliography: simbib.bib
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# Reproduce the Analysis from @gerard2022bayesian
+
+[![NSF-2132247](https://img.shields.io/badge/NSF-2132247-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=2132247)
+
+This repo contains the scripts and instructions to reproduce the results of @gerard2022bayesian. 
+
+## Instructions
+
+To run these scripts, you will need to have the latest version of R and GNU Make.
+
+1. Install the appropriate R packages
+
+    ```{r, eval = FALSE}
+    install.packages(c("devtools",
+                       "tidyverse"))
+    devtools::install_github("dcgerard/hwep")
+    devtools::install_github("dcgerard/updog")
+    ```
+    
+2. Run `make` in the terminal.
+
+## Session Information
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE, results='hide'}
+lapply(c("devtools",
+         "tidyverse",
+         "ggthemes",
+         "hwep",
+         "updog"), 
+       FUN = library,
+       character.only = TRUE)
+```
+
+```{r, echo = FALSE, comment=""}
+sessionInfo()
+```
+
+## Acknowledgments
+
+This material is based upon work supported by the National Science Foundation under Grant No. [2132247](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2132247). The opinions, findings, and conclusions or recommendations expressed are those of the author and do not necessarily reflect the views of the National Science Foundation.
+
+# References
