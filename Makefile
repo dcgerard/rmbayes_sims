@@ -28,9 +28,14 @@ small : ./output/small_samp/bfp.csv
 
 # Large sample analyses
 .PHONY : large
-large : ./output/large_samp/ldf.csv
+large : ./output/large_samp/bf_large.pdf
 
-./output/large_samp/ldf.csv : ./analysis/large_samp.R
+./output/large_samp/ldf.RDS : ./analysis/large_samp.R
+	mkdir -p ./output/rout
+	mkdir -p ./output/large_samp
+	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
+
+./output/large_samp/bf_large.pdf : ./analysis/large_plot.R ./output/large_samp/ldf.RDS
 	mkdir -p ./output/rout
 	mkdir -p ./output/large_samp
 	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout

@@ -4,7 +4,7 @@ library(readr)
 
 nrep <- 1000
 paramdf <- expand_grid(seed = seq_len(nrep),
-                       n = c(10, 100, 1000, 10000),
+                       n = c(10, 100, 1000),
                        ploidy = c(4, 6, 8),
                        condition = c("null", "alt"))
 paramdf$x <- vector(mode = "list", length = nrow(paramdf))
@@ -28,4 +28,4 @@ for (i in seq_len(nrow(paramdf))) {
   paramdf$bf[[i]] <- rmbayes(nvec = paramdf$x[[i]], lg = TRUE)
   paramdf$p[[i]] <- log(rmlike(nvec = paramdf$x[[i]], thresh = 0)$p_rm)
 }
-write_csv(x = paramdf, file = "./output/large_samp/ldf.csv")
+saveRDS(object = paramdf, file =  "./output/large_samp/ldf.RDS")
