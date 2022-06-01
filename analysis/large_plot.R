@@ -1,6 +1,6 @@
 library(tidyverse)
 
-ldf <- read_csv("./output/large_samp/ldf.csv")
+ldf <- readRDS("./output/large_samp/ldf.RDS")
 
 ldf %>%
   mutate(n = as.factor(n),
