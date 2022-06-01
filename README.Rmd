@@ -28,7 +28,8 @@ To run these scripts, you will need to have the latest version of R and GNU Make
 
     ```{r, eval = FALSE}
     install.packages(c("devtools",
-                       "tidyverse"))
+                       "tidyverse",
+                       "bench"))
     devtools::install_github("dcgerard/hwep")
     devtools::install_github("dcgerard/updog")
     ```
@@ -42,7 +43,8 @@ lapply(c("devtools",
          "tidyverse",
          "ggthemes",
          "hwep",
-         "updog"), 
+         "updog",
+         "bench"), 
        FUN = library,
        character.only = TRUE)
 ```

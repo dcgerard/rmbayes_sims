@@ -1,6 +1,7 @@
 library(hwep)
 library(tidyr)
 library(readr)
+library(bench)
 
 nrep <- 1000
 paramdf <- expand_grid(seed = seq_len(nrep),
@@ -9,7 +10,9 @@ paramdf <- expand_grid(seed = seq_len(nrep),
                        condition = c("null", "alt"))
 paramdf$x <- vector(mode = "list", length = nrow(paramdf))
 paramdf$bf <- rep(NA_real_, length.out = nrow(paramdf))
+paramdf$bf_time <- rep(NA_real_, length.out = nrow(paramdf))
 paramdf$p <- rep(NA_real_, length.out = nrow(paramdf))
+paramdf$p_time <- rep(NA_real_, length.out = nrow(paramdf))
 
 for (i in seq_len(nrow(paramdf))) {
   set.seed(paramdf$seed[[i]])
@@ -25,7 +28,12 @@ for (i in seq_len(nrow(paramdf))) {
 
   paramdf$x[[i]] <- c(stats::rmultinom(n = 1, size = paramdf$n[[i]], prob = qvec))
 
-  paramdf$bf[[i]] <- rmbayes(nvec = paramdf$x[[i]], lg = TRUE)
-  paramdf$p[[i]] <- log(rmlike(nvec = paramdf$x[[i]], thresh = 0)$p_rm)
+  paramdf$bf_time[[i]] <- as.numeric(bench::system_time(
+    paramdf$bf[[i]] <- rmbayes(nvec = paramdf$x[[i]], lg = TRUE)
+  )[[2]])
+
+  paramdf$p_time[[i]] <- as.numeric(bench::system_time(
+    paramdf$p[[i]] <- log(rmlike(nvec = paramdf$x[[i]], thresh = 0)$p_rm)
+  )[[2]])
 }
 saveRDS(object = paramdf, file =  "./output/large_samp/ldf.RDS")

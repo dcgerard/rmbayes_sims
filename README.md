@@ -17,7 +17,8 @@ GNU Make.
 
     ``` r
     install.packages(c("devtools",
-                       "tidyverse"))
+                       "tidyverse",
+                       "bench"))
     devtools::install_github("dcgerard/hwep")
     devtools::install_github("dcgerard/updog")
     ```
@@ -46,10 +47,10 @@ GNU Make.
     [1] stats     graphics  grDevices utils     datasets  methods   base     
 
     other attached packages:
-     [1] updog_2.1.3     hwep_2.0.0      ggthemes_4.2.4  forcats_0.5.1  
-     [5] stringr_1.4.0   dplyr_1.0.9     purrr_0.3.4     readr_2.1.2    
-     [9] tidyr_1.2.0     tibble_3.1.7    ggplot2_3.3.6   tidyverse_1.3.1
-    [13] devtools_2.4.3  usethis_2.1.5  
+     [1] bench_1.1.2     updog_2.1.3     hwep_2.0.0      ggthemes_4.2.4 
+     [5] forcats_0.5.1   stringr_1.4.0   dplyr_1.0.9     purrr_0.3.4    
+     [9] readr_2.1.2     tidyr_1.2.0     tibble_3.1.7    ggplot2_3.3.6  
+    [13] tidyverse_1.3.1 devtools_2.4.3  usethis_2.1.5  
 
     loaded via a namespace (and not attached):
      [1] fs_1.5.2                 lubridate_1.8.0          httr_1.4.3              
