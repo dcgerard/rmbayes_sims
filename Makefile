@@ -49,6 +49,12 @@ large : ./output/large_samp/bf_large.pdf
 
 ## Data analysis using Shirasawa data
 .PHONY : shir
+shir : ./data/shir/KDRIsweetpotatoXushu18S1LG2017.vcf
+
+./data/shir/KDRIsweetpotatoXushu18S1LG2017.vcf :
+	mkdir -p ./data/shir
+	wget --directory-prefix=data/shir --no-clobber https://github.com/dcgerard/KDRIsweetpotatoXushu18S1LG2017/raw/main/KDRIsweetpotatoXushu18S1LG2017.vcf.gz
+	7z e ./data/shir/KDRIsweetpotatoXushu18S1LG2017.vcf.gz -o./data/shir
 
 ## Data analysis of Sturgeon data from Delomas et al (2021)
 .PHONY : sturg
