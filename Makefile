@@ -14,8 +14,15 @@ rexec = R CMD BATCH --no-save --no-restore
 # AVOID EDITING ANYTHING BELOW THIS LINE
 # --------------------------------------
 
+## Raw data from Delomas et al (2021)
+sturg_dat = ./data/sturg/2n_3n_Chinook_readCounts.rda \
+            ./data/sturg/8n_12n_sturgeon_readCounts.rda \
+            ./data/sturg/10n_sturgeon_readCounts.rda \
+            ./data/sturg/white_sturgeon_genos.zip
+
+## run all scripts
 .PHONY : all
-all : small large
+all : small large shir sturg
 
 # Small sample analyses
 .PHONY : small
@@ -39,3 +46,21 @@ large : ./output/large_samp/bf_large.pdf
 	mkdir -p ./output/rout
 	mkdir -p ./output/large_samp
 	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
+
+## Data analysis using Shirasawa data
+.PHONY : shir
+
+## Data analysis of Sturgeon data from Delomas et al (2021)
+.PHONY : sturg
+sturg : $(sturg_dat)
+
+$(sturg_dat) :
+	mkdir -p ./data/sturg
+	wget --directory-prefix=data/sturg --no-clobber https://datadryad.org/stash/downloads/file_stream/711274
+	mv ./data/sturg/711274 ./data/sturg/10n_sturgeon_readCounts.rda
+	wget --directory-prefix=data/sturg --no-clobber https://datadryad.org/stash/downloads/file_stream/711272
+	mv ./data/sturg/711272 ./data/sturg/2n_3n_Chinook_readCounts.rda
+	wget --directory-prefix=data/sturg --no-clobber https://datadryad.org/stash/downloads/file_stream/711273
+	mv ./data/sturg/711273 ./data/sturg/8n_12n_sturgeon_readCounts.rda
+	wget --directory-prefix=data/sturg --no-clobber https://datadryad.org/stash/downloads/file_stream/711275
+	mv ./data/sturg/711275 ./data/sturg/white_sturgeon_genos.zip
