@@ -18,7 +18,8 @@ GNU Make.
     ``` r
     install.packages(c("devtools",
                        "tidyverse",
-                       "bench"))
+                       "bench",
+                       "ggthemes"))
     devtools::install_github("dcgerard/hwep")
     devtools::install_github("dcgerard/updog")
     ```
