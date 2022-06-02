@@ -23,7 +23,7 @@ refmat <- as.matrix(read.csv(file = "./output/shir/shir_ref.csv", row.names = 1)
 sizemat <- as.matrix(read.csv(file = "./output/shir/shir_size.csv", row.names = 1))
 
 plan(multisession, workers = nc)
-mout <- multidog(refmat = refmat, sizemat = sizemat, ploidy = 6, nc = NA, model = "s1")
+mout <- multidog(refmat = refmat, sizemat = sizemat, ploidy = 6, nc = NA, model = "s1", p1_id = "Xushu18")
 plan("sequential")
 
 saveRDS(object = mout, file = "./output/shir/shir_updog.RDS")

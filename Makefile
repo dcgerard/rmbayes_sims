@@ -58,7 +58,7 @@ large : ./output/large_samp/bf_large.pdf ./output/large_samp/time_large.pdf
 
 ## Data analysis using Shirasawa data
 .PHONY : shir
-shir : ./output/shir/shir_nmat.csv
+shir : ./output/shir/shir_bfdf.csv
 
 ./data/shir/KDRIsweetpotatoXushu18S1LG2017.vcf :
 	mkdir -p ./data/shir
@@ -78,6 +78,11 @@ $(count_shir) : ./analysis/shir/shir_filter.R ./data/shir/KDRIsweetpotatoXushu18
 ./output/shir/shir_nmat.csv : ./analysis/shir/shir_geno.R ./output/shir/shir_updog.RDS
 	mkdir -p ./output/rout
 	mkdir -p ./output/shir
+	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
+
+./output/shir/shir_bfdf.csv : ./analysis/shir/shir_hwep.R ./output/shir/shir_nmat.csv
+	mkdir -p ./output/rout
+	mkdir -p ./output/sturg
 	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
 
 
