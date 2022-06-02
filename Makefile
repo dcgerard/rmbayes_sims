@@ -58,7 +58,7 @@ large : ./output/large_samp/bf_large.pdf ./output/large_samp/time_large.pdf
 
 ## Data analysis using Shirasawa data
 .PHONY : shir
-shir : ./output/shir/shir_bfdf.csv
+shir : ./output/shir/shir_bfdf.csv ./output/shir/bf_gl.RDS
 
 ./data/shir/KDRIsweetpotatoXushu18S1LG2017.vcf :
 	mkdir -p ./data/shir
@@ -85,6 +85,10 @@ $(count_shir) : ./analysis/shir/shir_filter.R ./data/shir/KDRIsweetpotatoXushu18
 	mkdir -p ./output/sturg
 	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
 
+./output/shir/bf_gl.RDS : ./analysis/shir/shir_gltest.R ./output/shir/shir_updog.RDS
+	mkdir -p ./output/rout
+	mkdir -p ./output/shir
+	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
 
 ## Data analysis of Sturgeon data from Delomas et al (2021)
 .PHONY : sturg

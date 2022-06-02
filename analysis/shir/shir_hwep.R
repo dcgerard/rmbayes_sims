@@ -16,4 +16,4 @@ for (i in seq_len(nloc)) {
 ndf$bf <- bfvec
 ndf$p <- pvec
 
-write.csv(x = ndf, file = "./output/shir/shir_bfdf.csv", row.names = FALSE)
+write.csv(x = ndf, file = "./output/shir/shir_bfdf.csv", row.names = FALSE, col.names = TRUE)
