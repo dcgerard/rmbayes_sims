@@ -83,7 +83,7 @@ $(count_shir) : ./analysis/shir/shir_filter.R ./data/shir/KDRIsweetpotatoXushu18
 
 ## Data analysis of Sturgeon data from Delomas et al (2021)
 .PHONY : sturg
-sturg : $(sturg_n)
+sturg : ./output/sturg/sturg_bfdf.csv
 
 $(sturg_dat) :
 	mkdir -p ./data/sturg
@@ -100,3 +100,8 @@ $(sturg_n) : ./analysis/sturg/sturg_nmat.R $(sturg_dat)
 	mkdir -p ./output/rout
 	mkdir -p ./output/sturg
 	$(rexec) '--args nc=$(nc)' $< ./output/rout/$(basename $(notdir $<)).Rout
+
+./output/sturg/sturg_bfdf.csv : ./analysis/sturg/sturg_bftest.R $(sturg_n)
+	mkdir -p ./output/rout
+	mkdir -p ./output/sturg
+	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout

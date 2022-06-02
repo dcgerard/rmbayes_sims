@@ -1,17 +1,16 @@
 ## Test for random mating on Sturg data
-
+library(hwep)
 nmat <- readRDS("./output/sturg/nmat_updog.RDS")
 nloc <- nrow(nmat)
 bfvec <- rep(NA_real_, length.out = nloc)
 pvec <- rep(NA_real_, length.out = nloc)
 for (i in seq_len(nloc)) {
   bfvec[[i]] <- rmbayes(nmat[i, ])
-  pvec[[i]] <- rmlike(nvec = nmat[i, ], thresh = 0)$p_rm
+  pvec[[i]] <- log(rmlike(nvec = nmat[i, ], thresh = 0)$p_rm)
 }
 
-hist(bfvec)
-hist(pvec)
-ks.test(x = pvec, y = qunif)
+ndf <- as.data.frame(nmat)
+ndf$bf <- bfvec
+ndf$p <- pvec
 
-nmat[which.min(bfvec), ]
-
+write.csv(x = ndf, file = "./output/sturg/sturg_bfdf.csv", row.names = FALSE)
