@@ -2,6 +2,7 @@ library(tidyverse)
 library(hexbin)
 library(hwep)
 library(xtable)
+library(broom)
 
 bfp <- read_csv("./output/small_samp/bfp.csv")
 
@@ -58,6 +59,15 @@ ggsave(filename = "./output/small_samp/small_bfp_hex.pdf",
        height = 3,
        width = 6,
        family = "Times")
+
+
+bfp %>%
+  group_by(n, ploidy) %>%
+  nest() %>%
+  mutate(lm = map(data, ~lm(bf ~ p, data = .))) %>%
+  mutate(resid = map(lm, ~data.frame(res = resid(.)))) %>%
+  unnest(cols = c("data", "resid"))
+  transm
 
 ## See if monotonicity is important ----
 
