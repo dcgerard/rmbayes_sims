@@ -14,6 +14,11 @@ rexec = R CMD BATCH --no-save --no-restore
 # AVOID EDITING ANYTHING BELOW THIS LINE
 # --------------------------------------
 
+## Small sample plots
+small_plots = ./output/small_samp/small_bf_hist.pdf \
+              ./output/small_samp/small_bfp_hex.pdf \
+              ./output/small_samp/small_monotone_box.pdf
+
 ## Raw data from Delomas et al (2021)
 sturg_dat = ./data/sturg/2n_3n_Chinook_readCounts.rda \
             ./data/sturg/8n_12n_sturgeon_readCounts.rda \
@@ -35,9 +40,14 @@ all : small large shir sturg
 
 # Small sample analyses
 .PHONY : small
-small : ./output/small_samp/bfp.csv
+small : $(small_plots)
 
 ./output/small_samp/bfp.csv : ./analysis/small/small_samp.R
+	mkdir -p ./output/rout
+	mkdir -p ./output/small_samp
+	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
+
+$(small_plots) : ./analysis/small/small_plot.R ./output/small_samp/bfp.csv
 	mkdir -p ./output/rout
 	mkdir -p ./output/small_samp
 	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout

@@ -5,6 +5,10 @@ library(xtable)
 
 bfp <- read_csv("./output/small_samp/bfp.csv")
 
+bfp %>%
+  mutate(ploidy = parse_factor(paste0("K = ", ploidy)),
+         n = parse_factor(paste0("n = ", n))) ->
+  bfp
 
 ## Distribution and extremes -----
 
@@ -40,13 +44,20 @@ print(xtable(extremedf), include.rownames = FALSE)
 
 bfp %>%
   ggplot(aes(x = bf, y = p)) +
-  geom_point(alpha = 0.1) +
-  facet_grid(ploidy ~ n) +
+  geom_hex() +
+  facet_grid(n ~ ploidy) +
   theme_bw() +
   xlab("Log Bayes Factor") +
   ylab("Log p-value") +
-  theme(strip.background = element_rect(fill = "white"))
+  theme(strip.background = element_rect(fill = "white")) +
+  scale_fill_gradient(trans = "log", breaks = c(1, 5, 50, 500), low = "gray10", high = "gray90") ->
+  pl
 
+ggsave(filename = "./output/small_samp/small_bfp_hex.pdf",
+       plot = pl,
+       height = 3,
+       width = 6,
+       family = "Times")
 
 ## See if monotonicity is important ----
 
@@ -94,8 +105,22 @@ bfp %>%
 bfp$mono <- monovec
 
 bfp %>%
-  filter(ploidy == 8, n == 10) %>%
-  select(bf, mono) %>%
   ggplot(aes(x = mono, y = bf)) +
-  geom_boxplot()
+  geom_boxplot() +
+  facet_grid(n ~ ploidy) +
+  theme_bw() +
+  geom_hline(yintercept = 0, lty = 2, col = 2) +
+  theme(strip.background = element_rect(fill = "white")) +
+  xlab("Monotone") +
+  ylab("Log Bayes Factor") ->
+  pl
 
+ggsave(filename = "./output/small_samp/small_monotone_box.pdf",
+       plot = pl,
+       height = 3,
+       width = 6,
+       family = "Times")
+
+pseq <- expand.grid(p0 = ppoints(100), p1 = ppoints(100))
+pseq$p2 <- 1 - pseq$p0 - pseq$p1
+pseq$mono <- apply(as.matrix(pseq), 1, is_monotone)
