@@ -1,28 +1,46 @@
 library(tidyverse)
 library(hexbin)
 library(hwep)
+library(xtable)
 
 bfp <- read_csv("./output/small_samp/bfp.csv")
 
+
+## Distribution and extremes -----
+
 bfp %>%
   ggplot(aes(x = bf)) +
-  facet_grid(ploidy ~ n) +
+  facet_grid(n ~ ploidy) +
   geom_histogram(aes(y = ..density..), bins = 20, color = "black", fill = "white") +
   theme_bw() +
   xlab("Log Bayes Factor") +
-  theme(strip.background = element_rect(fill = "white"))
+  theme(strip.background = element_rect(fill = "white")) ->
+  pl
+
+ggsave(filename = "./output/small_samp/small_bf_hist.pdf",
+       plot = pl,
+       height = 3,
+       width = 6,
+       family = "Times")
 
 bfp %>%
-  filter(ploidy == 4, n == 5) %>%
-  arrange(desc(bf))
+  group_by(ploidy, n) %>%
+  arrange(desc(bf)) %>%
+  slice(1, n()) %>%
+  mutate(order = c("first", "last")) %>%
+  relocate(ploidy, n, bf, p, order, everything()) %>%
+  ungroup() %>%
+  arrange(order, ploidy, n) %>%
+  select(-order) ->
+  extremedf
 
-bfp %>%
-  filter(ploidy == 4, n == 5) %>%
-  arrange(bf)
+print(xtable(extremedf), include.rownames = FALSE)
+
+## Compare to p-values ----
 
 bfp %>%
   ggplot(aes(x = bf, y = p)) +
-  geom_hex() +
+  geom_point(alpha = 0.1) +
   facet_grid(ploidy ~ n) +
   theme_bw() +
   xlab("Log Bayes Factor") +
@@ -30,9 +48,7 @@ bfp %>%
   theme(strip.background = element_rect(fill = "white"))
 
 
-#####
-## See if monotonicity is important
-#####
+## See if monotonicity is important ----
 
 #' Checks if x is monotone
 #'
