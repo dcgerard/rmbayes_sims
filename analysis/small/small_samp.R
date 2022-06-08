@@ -6,7 +6,7 @@ library(tibble)
 library(tidyr)
 library(readr)
 
-paramdf <- expand_grid(n = c(5, 10, 20),
+paramdf <- expand_grid(n = c(5, 10),
                        ploidy = c(4, 6, 8))
 paramdf$dfbf <- vector(mode = "list", length = nrow(paramdf))
 for (iter in seq_len(nrow(paramdf))) {
