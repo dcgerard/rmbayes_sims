@@ -134,6 +134,27 @@ print(xtable(z5tab,
       sanitize.colnames.function = function(x) x,
       file = "./output/small_samp/tab_bf_near_p05.tex")
 
+x1 <- c(0, 0, 1, 7, 1, 0, 0, 0, 1)
+rmbayes(nvec = x1)
+rmlike(nvec = x1, thresh = 0)$p_rm
+
+x2 <- c(4, 2, 3, 0, 0, 0, 0, 1, 0)
+rmbayes(nvec = x2)
+rmlike(nvec = x2, thresh = 0)$p_rm
+
+# gk <- gibbs_known(x = x2, alpha = rep(1, 5), more = TRUE, lg = TRUE)
+# colnames(gk$p) <- paste0("p", 0:4)
+# gk$p %>%
+#   as_tibble() %>%
+#   gather(key = "variable", value = "value") %>%
+#   group_by(variable) %>%
+#   mutate(index = row_number()) %>%
+#   ggplot(aes(x = value)) +
+#   facet_wrap(. ~ variable) +
+#   geom_histogram()
+# pmode <- gk$p[which.max(gk$post), ]
+# pmle <- rmlike(nvec = x2, thresh = 0)$p
+
 ## See if monotonicity is important ----
 
 #' Checks if x is monotone
