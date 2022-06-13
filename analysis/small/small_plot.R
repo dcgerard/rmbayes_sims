@@ -66,8 +66,32 @@ bfp %>%
   nest() %>%
   mutate(lm = map(data, ~lm(bf ~ p, data = .))) %>%
   mutate(resid = map(lm, ~data.frame(res = resid(.)))) %>%
-  unnest(cols = c("data", "resid"))
-  transm
+  unnest(cols = c("data", "resid")) %>%
+  select(-lm) %>%
+  arrange(res) %>%
+  relocate(ploidy, n, bf, p, res, everything()) %>%
+  slice(1, n()) %>%
+  mutate(type = c("first", "last")) %>%
+  ungroup() %>%
+  arrange(type, ploidy, n) %>%
+  select(-type) ->
+  difftab
+
+print(xtable(difftab), include.rownames = FALSE)
+
+xdat <- c(1, 0, 0, 8, 0, 0, 0, 1, 0)
+lrt_out <- rmlike(nvec = xdat, thresh = 0)
+rmbayes(nvec = xdat)
+gibbs_out <- gibbs_known(x = xdat, alpha = rep(1, 5), lg = TRUE, more = TRUE)
+
+p_l <- lrt_out$p
+p_b <- gibbs_out$p[which.max(gibbs_out$post), ]
+
+round(convolve(p_l, rev(p_l), type = "open"), digits = 2)
+round(convolve(p_b, rev(p_b), type = "open"), digits = 2)
+hwep:::llike(nvec = xdat, pvec = p_b)
+hwep:::llike(nvec = xdat, pvec = p_l)
+
 
 ## See if monotonicity is important ----
 
