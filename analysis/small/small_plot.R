@@ -142,6 +142,15 @@ x2 <- c(4, 2, 3, 0, 0, 0, 0, 1, 0)
 rmbayes(nvec = x2)
 rmlike(nvec = x2, thresh = 0)$p_rm
 
+priorlist <- hwep:::conc_default(ploidy = 8)
+gibbs_known(x = x1, alpha = priorlist$alpha, lg = TRUE)
+gibbs_known(x = x2, alpha = priorlist$alpha, lg = TRUE)
+hwep:::ddirmult(x = x1, alpha = priorlist$beta, lg = TRUE)
+hwep:::ddirmult(x = x2, alpha = priorlist$beta, lg = TRUE)
+
+hwep:::ddirmult(x = x1, alpha = rep(1, 9), lg = TRUE)
+hwep:::ddirmult(x = x2, alpha = rep(1, 9), lg = TRUE)
+
 # gk <- gibbs_known(x = x2, alpha = rep(1, 5), more = TRUE, lg = TRUE)
 # colnames(gk$p) <- paste0("p", 0:4)
 # gk$p %>%
