@@ -20,6 +20,11 @@ small_plots = ./output/small_samp/small_bf_hist.pdf \
               ./output/small_samp/small_monotone_box.pdf \
               ./output/small_samp/tab_extreme_bf.tex
 
+## Large sample plots
+large_plots = ./output/large_samp/qqpvalue.pdf \
+              ./output/large_samp/bf_large.pdf \
+              ./output/large_samp/time_large.pdf
+
 ## Raw data from Delomas et al (2021)
 sturg_dat = ./data/sturg/2n_3n_Chinook_readCounts.rda \
             ./data/sturg/8n_12n_sturgeon_readCounts.rda \
@@ -55,14 +60,14 @@ $(small_plots) : ./analysis/small/small_plot.R ./output/small_samp/bfp.csv
 
 # Large sample analyses
 .PHONY : large
-large : ./output/large_samp/bf_large.pdf ./output/large_samp/time_large.pdf
+large : $(large_plots)
 
 ./output/large_samp/ldf.RDS : ./analysis/large/large_samp.R
 	mkdir -p ./output/rout
 	mkdir -p ./output/large_samp
 	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
 
-./output/large_samp/bf_large.pdf ./output/large_samp/time_large.pdf: ./analysis/large/large_plot.R ./output/large_samp/ldf.RDS
+$(large_plots) : ./analysis/large/large_plot.R ./output/large_samp/ldf.RDS
 	mkdir -p ./output/rout
 	mkdir -p ./output/large_samp
 	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
