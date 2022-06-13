@@ -36,10 +36,22 @@ bfp %>%
   relocate(ploidy, n, bf, p, order, everything()) %>%
   ungroup() %>%
   arrange(order, ploidy, n) %>%
-  select(-order) ->
+  select(-order) %>%
+  mutate(ploidy = str_remove(ploidy, "K = "),
+         n = str_remove(n, "n = ")) %>%
+  as.data.frame() ->
   extremedf
 
-print(xtable(extremedf), include.rownames = FALSE)
+extremedf[is.na(extremedf)] <- "-"
+
+colnames(extremedf) <- c("Ploidy", "$n$", "$\\log$ BF", "$\\log$ $p$-value", paste0("$x_", 0:8, "$"))
+print(xtable(extremedf,
+             caption = "Small sample datasets with highest and lowest Bayes factors by ploidy and sample size. Very large Bayes factors tend to be unimodal, whereas very small Bayes factors tend to have a couple prominant modes.",
+             label = "tab:extreme.bf",
+             digits = c(0, 0, 0, 2, 2, rep(0, 9))),
+      include.rownames = FALSE,
+      sanitize.colnames.function = function(x) x,
+      file = "./output/small_samp/tab_extreme_bf.tex")
 
 ## Compare to p-values ----
 

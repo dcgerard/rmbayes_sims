@@ -17,7 +17,8 @@ rexec = R CMD BATCH --no-save --no-restore
 ## Small sample plots
 small_plots = ./output/small_samp/small_bf_hist.pdf \
               ./output/small_samp/small_bfp_hex.pdf \
-              ./output/small_samp/small_monotone_box.pdf
+              ./output/small_samp/small_monotone_box.pdf \
+              ./output/small_samp/tab_extreme_bf.tex
 
 ## Raw data from Delomas et al (2021)
 sturg_dat = ./data/sturg/2n_3n_Chinook_readCounts.rda \

@@ -30,7 +30,10 @@ To run these scripts, you will need to have the latest version of R and GNU Make
     install.packages(c("devtools",
                        "tidyverse",
                        "bench",
-                       "ggthemes"))
+                       "ggthemes",
+                       "xtable",
+                       "hexbin", 
+                       "broom"))
     devtools::install_github("dcgerard/hwep")
     devtools::install_github("dcgerard/updog")
     ```
@@ -45,7 +48,10 @@ lapply(c("devtools",
          "ggthemes",
          "hwep",
          "updog",
-         "bench"), 
+         "bench",
+         "xtable",
+         "hexbin",
+         "broom"), 
        FUN = library,
        character.only = TRUE)
 ```
