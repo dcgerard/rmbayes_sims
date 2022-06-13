@@ -43,8 +43,8 @@ bfp %>%
   extremedf
 
 extremedf[is.na(extremedf)] <- "-"
-
 colnames(extremedf) <- c("Ploidy", "$n$", "$\\log$ BF", "$\\log$ $p$-value", paste0("$x_", 0:8, "$"))
+
 print(xtable(extremedf,
              caption = "Small sample datasets with highest and lowest Bayes factors by ploidy and sample size. Very large Bayes factors tend to be unimodal, whereas very small Bayes factors tend to have a couple prominant modes.",
              label = "tab:extreme.bf",
@@ -72,6 +72,7 @@ ggsave(filename = "./output/small_samp/small_bfp_hex.pdf",
        width = 6,
        family = "Times")
 
+## largest difference by residual
 
 bfp %>%
   group_by(n, ploidy) %>%
@@ -86,24 +87,52 @@ bfp %>%
   mutate(type = c("first", "last")) %>%
   ungroup() %>%
   arrange(type, ploidy, n) %>%
-  select(-type) ->
+  select(-type) %>%
+  mutate(ploidy = str_remove(ploidy, "K = "),
+         n = str_remove(n, "n = ")) %>%
+  as.data.frame() ->
   difftab
 
-print(xtable(difftab), include.rownames = FALSE)
+difftab[is.na(difftab)] <- "-"
+colnames(difftab) <- c("Ploidy", "$n$", "$\\log$ BF", "$\\log$ $p$-value", "Residual", paste0("$x_", 0:8, "$"))
 
-xdat <- c(1, 0, 0, 8, 0, 0, 0, 1, 0)
-lrt_out <- rmlike(nvec = xdat, thresh = 0)
-rmbayes(nvec = xdat)
-gibbs_out <- gibbs_known(x = xdat, alpha = rep(1, 5), lg = TRUE, more = TRUE)
+print(xtable(difftab,
+             caption = "Values of $\\bs{x}$ that provide the most different results between the Bayes test and the likelihood ratio test for different ploidies and sample sizes. The residual column is from a regresion of the log Bayese factor on the log p-value, with negative residual values indicating the Bayes factor provides more evidence against the null than expected, and positive residual values indicating the Bayes factor provides less evidence againts the null than expected.",
+             label = "tab:diff.p.bf",
+             digits = c(0, 0, 0, 2, 2, 2, rep(0, 9))),
+      include.rownames = FALSE,
+      sanitize.colnames.function = function(x) x,
+      file = "./output/small_samp/tab_diff_p_bf.tex")
 
-p_l <- lrt_out$p
-p_b <- gibbs_out$p[which.max(gibbs_out$post), ]
+# Look at distribution of bayes factors when p = 0.05
 
-round(convolve(p_l, rev(p_l), type = "open"), digits = 2)
-round(convolve(p_b, rev(p_b), type = "open"), digits = 2)
-hwep:::llike(nvec = xdat, pvec = p_b)
-hwep:::llike(nvec = xdat, pvec = p_l)
+bfp %>%
+  mutate(pval = exp(p)) %>%
+  filter(pval > 0.047, pval < 0.053) %>%
+  group_by(n, ploidy) %>%
+  arrange(bf) %>%
+  slice(1, n()) %>%
+  select(-p) %>%
+  relocate(ploidy, n, bf, pval, everything()) %>%
+  mutate(type = c("first", "last")) %>%
+  ungroup() %>%
+  arrange(ploidy, n, type) %>%
+  select(-type) %>%
+  mutate(ploidy = str_remove(ploidy, "K = "),
+         n = str_remove(n, "n = ")) %>%
+  as.data.frame() ->
+  z5tab
 
+z5tab[is.na(z5tab)] <- "-"
+colnames(z5tab) <- c("Ploidy", "$n$", "$\\log$ BF", "$p$-value", paste0("$x_", 0:8, "$"))
+
+print(xtable(z5tab,
+             caption = "Highest and lowest Bayes factors when the $p$-value is near 0.05 for each ploidy and sample size.",
+             label = "tab:bf.near.p05",
+             digits = c(0, 0, 0, 2, 3, rep(0, 9))),
+      include.rownames = FALSE,
+      sanitize.colnames.function = function(x) x,
+      file = "./output/small_samp/tab_bf_near_p05.tex")
 
 ## See if monotonicity is important ----
 
