@@ -54,7 +54,6 @@ worst_snps <- sturgtab$SNP[1:3]
 ## raw data from weird SNPs ----
 sturgdat <- readRDS("./output/sturg/sturg_updog.RDS")
 sturgsub <- filter_snp(sturgdat, snp %in% worst_snps)
-plot(sturgsub)
 
 which_one <- sturgsub$inddf$snp == worst_snps[[1]]
 refvec <- sturgsub$inddf$ref[which_one]
@@ -75,7 +74,8 @@ plot_geno(refvec = refvec,
           seq = local_mode$seq,
           bias = local_mode$bias,
           use_colorblind = TRUE) +
-  ggtitle("(B)") ->
+  ggtitle("(B)") +
+  labs(color = "Genotype\nEstimate")->
   p1
 
 

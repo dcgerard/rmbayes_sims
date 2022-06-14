@@ -39,7 +39,8 @@ sturg_n = ./output/sturg/nmat_updog.RDS \
 ## Final sturgeno plots
 sturg_plots = ./output/sturg/sturg_bfhist.pdf \
               ./output/sturg/sturg_snps.tex \
-              ./output/sturg/sturg_bias_hist.pdf
+              ./output/sturg/sturg_bias_hist.pdf \
+              ./output/sturg/sturg_twofits.pdf
 
 ## read-counts used from Shirasawa et al (2017)
 count_shir = ./output/shir/shir_size.csv \
