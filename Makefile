@@ -36,6 +36,11 @@ sturg_n = ./output/sturg/nmat_updog.RDS \
           ./output/sturg/nmat_delo.RDS \
           ./output/sturg/sturg_updog.RDS
 
+## Final sturgeno plots
+sturg_plots = ./output/sturg/sturg_bfhist.pdf \
+              ./output/sturg/sturg_snps.tex \
+              ./output/sturg/sturg_bias_hist.pdf
+
 ## read-counts used from Shirasawa et al (2017)
 count_shir = ./output/shir/shir_size.csv \
              ./output/shir/shir_ref.csv
@@ -108,7 +113,7 @@ $(count_shir) : ./analysis/shir/shir_filter.R ./data/shir/KDRIsweetpotatoXushu18
 
 ## Data analysis of Sturgeon data from Delomas et al (2021)
 .PHONY : sturg
-sturg : ./output/sturg/sturg_bfdf.csv
+sturg : $(sturg_plots)
 
 $(sturg_dat) :
 	mkdir -p ./data/sturg
@@ -127,6 +132,11 @@ $(sturg_n) : ./analysis/sturg/sturg_nmat.R $(sturg_dat)
 	$(rexec) '--args nc=$(nc)' $< ./output/rout/$(basename $(notdir $<)).Rout
 
 ./output/sturg/sturg_bfdf.csv : ./analysis/sturg/sturg_bftest.R $(sturg_n)
+	mkdir -p ./output/rout
+	mkdir -p ./output/sturg
+	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
+
+$(sturg_plots) : ./analysis/sturg/sturg_plot.R ./output/sturg/sturg_bfdf.csv
 	mkdir -p ./output/rout
 	mkdir -p ./output/sturg
 	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout

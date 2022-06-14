@@ -13,4 +13,4 @@ ndf <- as.data.frame(nmat)
 ndf$bf <- bfvec
 ndf$p <- pvec
 
-write.csv(x = ndf, file = "./output/sturg/sturg_bfdf.csv", row.names = FALSE)
+write.csv(x = ndf, file = "./output/sturg/sturg_bfdf.csv", row.names = TRUE)
