@@ -21,7 +21,7 @@ library(rngtools)
 library(doRNG)
 
 ## set up simulation parameters ----
-nrep <- 1000
+nrep <- 100
 paramdf <- expand_grid(seed = seq_len(nrep),
                        n = c(10, 100, 1000),
                        ploidy = c(4, 6, 8),
