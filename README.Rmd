@@ -34,7 +34,12 @@ To run these scripts, you will need to have the latest version of R and GNU Make
                        "xtable",
                        "hexbin", 
                        "broom",
-                       "patchwork"))
+                       "patchwork",
+                       "foreach",
+                       "future",
+                       "doFuture",
+                       "rngtools",
+                       "doRNG"))
     devtools::install_github("dcgerard/hwep")
     devtools::install_github("dcgerard/updog")
     ```
@@ -53,7 +58,12 @@ lapply(c("devtools",
          "xtable",
          "hexbin",
          "broom",
-         "patchwork"), 
+         "patchwork",
+         "foreach",
+         "future",
+         "doFuture",
+         "rngtools",
+         "doRNG"), 
        FUN = library,
        character.only = TRUE)
 ```
