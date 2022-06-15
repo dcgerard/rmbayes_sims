@@ -48,7 +48,7 @@ count_shir = ./output/shir/shir_size.csv \
 
 ## run all scripts
 .PHONY : all
-all : small large shir sturg
+all : small large shir sturg gl
 
 # Small sample analyses
 .PHONY : small
@@ -141,3 +141,12 @@ $(sturg_plots) : ./analysis/sturg/sturg_plot.R ./output/sturg/sturg_bfdf.csv
 	mkdir -p ./output/rout
 	mkdir -p ./output/sturg
 	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
+
+## Genotype likelihood simulations
+.PHONY : gl
+gl : ./output/gl/gldf.RDS
+
+./output/gl/gldf.RDS : ./analysis/gl/gl_samp.R
+	mkdir -p ./output/rout
+	mkdir -p ./output/gl
+	$(rexec) '--args nc=$(nc)' $< ./output/rout/$(basename $(notdir $<)).Rout
