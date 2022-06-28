@@ -144,9 +144,14 @@ $(sturg_plots) : ./analysis/sturg/sturg_plot.R ./output/sturg/sturg_bfdf.csv
 
 ## Genotype likelihood simulations
 .PHONY : gl
-gl : ./output/gl/gldf.RDS
+gl : ./output/gl/gl_consist.pdf
 
 ./output/gl/gldf.RDS : ./analysis/gl/gl_samp.R
 	mkdir -p ./output/rout
 	mkdir -p ./output/gl
 	$(rexec) '--args nc=$(nc)' $< ./output/rout/$(basename $(notdir $<)).Rout
+
+./output/gl/gl_consist.pdf : ./analysis/gl/gl_plot.R ./output/gl/gldf.RDS
+	mkdir -p ./output/rout
+	mkdir -p ./output/gl
+	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
