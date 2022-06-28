@@ -43,10 +43,14 @@ paramdf$p_mode <- rep(NA_real_, length.out = nrow(paramdf))
 # genotype likelihood approach
 paramdf$bfgl <- rep(NA_real_, length.out = nrow(paramdf))
 
+# genotype likelihood approach with stan
+paramdf$bfstan <- rep(NA_real_, length.out = nrow(paramdf))
+
 # timing
 paramdf$bf_time <- rep(NA_real_, length.out = nrow(paramdf))
 paramdf$p_time <- rep(NA_real_, length.out = nrow(paramdf))
 paramdf$bfgl_time <- rep(NA_real_, length.out = nrow(paramdf))
+paramdf$bfstan_time <- rep(NA_real_, length.out = nrow(paramdf))
 
 ## shuffle paramdf for even load ----
 paramdf <- paramdf[sample(1:nrow(paramdf)), ]
@@ -104,8 +108,12 @@ simdf <- foreach(i = seq_len(nrow(paramdf)),
 
   paramdf$p_mode[[i]] <- log(rmlike(nvec = nvec_mode, thresh = 0)$p_rm)
 
+  paramdf$bfstan_time[[i]] <- as.numeric(bench::system_time(
+    paramdf$bfstan[[i]] <- rmbayesgl(gl = gl, lg = TRUE, method = "stan")
+  )[[2]])
+
   paramdf$bfgl_time[[i]] <- as.numeric(bench::system_time(
-    paramdf$bfgl[[i]] <- rmbayesgl(gl = gl, lg = TRUE)
+    paramdf$bfgl[[i]] <- rmbayesgl(gl = gl, lg = TRUE, method = "gibbs", iter = 100000)
   )[[2]])
 
   paramdf[i, ]
