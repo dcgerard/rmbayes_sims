@@ -46,6 +46,13 @@ sturg_plots = ./output/sturg/sturg_bfhist.pdf \
 count_shir = ./output/shir/shir_size.csv \
              ./output/shir/shir_ref.csv
 
+## Plots in GL simulations
+gl_plots = ./output/gl/gl_consist.pdf \
+           ./output/gl/bf_compare_null.pdf \
+           ./output/gl/bf_compare_alt.pdf \
+           ./output/gl/gl_box_gibbs.pdf \
+           ./output/gl/gl_time.pdf
+
 ## run all scripts
 .PHONY : all
 all : small large shir sturg gl
@@ -144,14 +151,14 @@ $(sturg_plots) : ./analysis/sturg/sturg_plot.R ./output/sturg/sturg_bfdf.csv
 
 ## Genotype likelihood simulations
 .PHONY : gl
-gl : ./output/gl/gl_consist.pdf
+gl : $(gl_plots)
 
 ./output/gl/gldf.RDS : ./analysis/gl/gl_samp.R
 	mkdir -p ./output/rout
 	mkdir -p ./output/gl
 	$(rexec) '--args nc=$(nc)' $< ./output/rout/$(basename $(notdir $<)).Rout
 
-./output/gl/gl_consist.pdf : ./analysis/gl/gl_plot.R ./output/gl/gldf.RDS
+$(gl_plots) : ./analysis/gl/gl_plot.R ./output/gl/gldf.RDS
 	mkdir -p ./output/rout
 	mkdir -p ./output/gl
 	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
