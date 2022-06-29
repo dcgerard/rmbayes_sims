@@ -10,6 +10,8 @@ bf_gl <- readRDS("./output/shir/bf_gl.RDS") ## GL fit
 bfdf$bfgl <- bf_gl
 shirdat <- readRDS("./output/shir/shir_updog.RDS") ## raw data
 
+## Plot Bayes factors ----
+
 ggplot(bfdf, aes(x = bfgl, y = bf)) +
   geom_point() +
   geom_abline(slope = 1, intercept = 0, lty = 2, col = 2) +
@@ -36,7 +38,7 @@ ggsave(filename = "./output/shir/shir_bf_hist.pdf",
        width = 3,
        family = "Times")
 
-## Problem loci
+## Plot problem loci fits ----
 
 bfdf %>%
   arrange(bfgl) %>%
@@ -60,6 +62,8 @@ for (i in 1:(nrow(subdat$snpdf))) {
 pdf(file = "./output/shir/shir_up_fits.pdf", height = 7, width = 6, family = "Times")
 wrap_plots(pl_list, nrow = 3)
 dev.off()
+
+## Create a table of problem loci ----
 
 probdat <- updog::get_q_array(ploidy = 6)
 probmat <- rbind(
