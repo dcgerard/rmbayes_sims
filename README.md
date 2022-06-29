@@ -20,6 +20,7 @@ GNU Make.
                        "tidyverse",
                        "bench",
                        "ggthemes",
+                       "ggpubr",
                        "xtable",
                        "hexbin", 
                        "broom",
@@ -60,36 +61,41 @@ GNU Make.
      [1] doRNG_1.8.2     rngtools_1.5.2  doFuture_0.12.2 future_1.26.1  
      [5] foreach_1.5.2   patchwork_1.1.1 broom_0.8.0     hexbin_1.28.2  
      [9] xtable_1.8-4    bench_1.1.2     updog_2.1.3     hwep_2.0.0     
-    [13] ggthemes_4.2.4  forcats_0.5.1   stringr_1.4.0   dplyr_1.0.9    
-    [17] purrr_0.3.4     readr_2.1.2     tidyr_1.2.0     tibble_3.1.7   
-    [21] ggplot2_3.3.6   tidyverse_1.3.1 devtools_2.4.3  usethis_2.1.6  
+    [13] ggpubr_0.4.0    ggthemes_4.2.4  forcats_0.5.1   stringr_1.4.0  
+    [17] dplyr_1.0.9     purrr_0.3.4     readr_2.1.2     tidyr_1.2.0    
+    [21] tibble_3.1.7    ggplot2_3.3.6   tidyverse_1.3.1 devtools_2.4.3 
+    [25] usethis_2.1.6  
 
     loaded via a namespace (and not attached):
-     [1] fs_1.5.2                 lubridate_1.8.0          httr_1.4.3              
-     [4] rprojroot_2.0.3          tools_4.2.0              backports_1.4.1         
-     [7] utf8_1.2.2               R6_2.5.1                 DBI_1.1.2               
-    [10] colorspace_2.0-3         withr_2.5.0              tidyselect_1.1.2        
-    [13] prettyunits_1.1.1        processx_3.6.0           compiler_4.2.0          
-    [16] cli_3.3.0                rvest_1.0.2              xml2_1.3.3              
-    [19] desc_1.4.1               scales_1.2.0             callr_3.7.0             
-    [22] digest_0.6.29            rmarkdown_2.14           pkgconfig_2.0.3         
-    [25] htmltools_0.5.2          parallelly_1.32.0        sessioninfo_1.2.2       
-    [28] dbplyr_2.2.0             fastmap_1.1.0            rlang_1.0.2             
-    [31] readxl_1.4.0             rstudioapi_0.13          generics_0.1.2          
-    [34] jsonlite_1.8.0           magrittr_2.0.3           Rcpp_1.0.8.3            
-    [37] munsell_0.5.0            fansi_1.0.3              lifecycle_1.0.1         
-    [40] stringi_1.7.6            yaml_2.3.5               brio_1.1.3              
-    [43] pkgbuild_1.3.1           grid_4.2.0               parallel_4.2.0          
-    [46] listenv_0.8.0            crayon_1.5.1             lattice_0.20-45         
-    [49] haven_2.5.0              hms_1.1.1                knitr_1.39              
-    [52] ps_1.7.0                 pillar_1.7.0             codetools_0.2-18        
-    [55] pkgload_1.2.4            reprex_2.0.1             glue_1.6.2              
-    [58] evaluate_0.15            RcppArmadillo_0.11.2.0.0 remotes_2.4.2           
-    [61] modelr_0.1.8             vctrs_0.4.1              tzdb_0.3.0              
-    [64] testthat_3.1.4           cellranger_1.1.0         gtable_0.3.0            
-    [67] assertthat_0.2.1         cachem_1.0.6             xfun_0.31               
-    [70] iterators_1.0.14         memoise_2.0.1            globals_0.15.0          
-    [73] ellipsis_0.3.2          
+     [1] colorspace_2.0-3         ggsignif_0.6.3           ellipsis_0.3.2          
+     [4] rprojroot_2.0.3          RcppArmadillo_0.11.2.0.0 fs_1.5.2                
+     [7] rstudioapi_0.13          listenv_0.8.0            rstan_2.21.5            
+    [10] remotes_2.4.2            fansi_1.0.3              lubridate_1.8.0         
+    [13] xml2_1.3.3               codetools_0.2-18         cachem_1.0.6            
+    [16] knitr_1.39               pkgload_1.2.4            jsonlite_1.8.0          
+    [19] dbplyr_2.2.0             compiler_4.2.0           httr_1.4.3              
+    [22] backports_1.4.1          assertthat_0.2.1         fastmap_1.1.0           
+    [25] cli_3.3.0                htmltools_0.5.2          prettyunits_1.1.1       
+    [28] tools_4.2.0              gtable_0.3.0             glue_1.6.2              
+    [31] Rcpp_1.0.8.3             carData_3.0-5            cellranger_1.1.0        
+    [34] vctrs_0.4.1              iterators_1.0.14         xfun_0.31               
+    [37] globals_0.15.1           ps_1.7.1                 brio_1.1.3              
+    [40] testthat_3.1.4           rvest_1.0.2              lifecycle_1.0.1         
+    [43] rstatix_0.7.0            scales_1.2.0             hms_1.1.1               
+    [46] parallel_4.2.0           inline_0.3.19            yaml_2.3.5              
+    [49] memoise_2.0.1            gridExtra_2.3            loo_2.5.1               
+    [52] StanHeaders_2.21.0-7     stringi_1.7.6            desc_1.4.1              
+    [55] pkgbuild_1.3.1           rlang_1.0.3              pkgconfig_2.0.3         
+    [58] matrixStats_0.62.0       lattice_0.20-45          evaluate_0.15           
+    [61] rstantools_2.2.0         processx_3.6.1           tidyselect_1.1.2        
+    [64] parallelly_1.32.0        magrittr_2.0.3           R6_2.5.1                
+    [67] generics_0.1.2           DBI_1.1.2                pillar_1.7.0            
+    [70] haven_2.5.0              withr_2.5.0              abind_1.4-5             
+    [73] modelr_0.1.8             crayon_1.5.1             car_3.0-13              
+    [76] utf8_1.2.2               tzdb_0.3.0               rmarkdown_2.14          
+    [79] grid_4.2.0               readxl_1.4.0             callr_3.7.0             
+    [82] reprex_2.0.1             digest_0.6.29            RcppParallel_5.1.5      
+    [85] stats4_4.2.0             munsell_0.5.0            sessioninfo_1.2.2       
 
 ## Acknowledgments
 
