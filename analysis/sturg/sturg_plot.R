@@ -227,5 +227,38 @@ hwep::rmbayes(nold)
 nnew <- table(factor(local_mode3$geno, levels = 0:4))
 hwep::rmbayes(nnew)
 
+#################################################
+## Likelihood stuf ----
+#################################################
 
+ggplot(bfdf, aes(x = bf, y = p)) +
+  geom_point() +
+  xlab("Log Bayes Factor") +
+  ylab("Log p-value") +
+  theme_bw() +
+  geom_smooth(method = "lm", se = FALSE, formula = y ~ x) ->
+  pl
+
+ggsave(filename = "./output/sturg/sturg_bf_vs_p.pdf",
+       plot = pl,
+       height = 3,
+       width = 4,
+       family = "Times")
+
+bfdf %>%
+  mutate(p = exp(p)) %>%
+  ggplot(aes(x = p)) +
+  geom_histogram(bins = 15, color = "black", fill = "white") +
+  theme_bw() +
+  xlab("p-value") ->
+  pl
+
+ggsave(filename = "./output/sturg/sturg_p_hist.pdf",
+       plot = pl,
+       height = 3,
+       width = 4,
+       family = "Times")
+
+qout <- qvalue(exp(bfdf$p))
+head(sort(qout$qvalues))
 
