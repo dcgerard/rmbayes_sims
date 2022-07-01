@@ -144,6 +144,8 @@ $(sturg_dat) :
 	mv ./data/sturg/711273 ./data/sturg/8n_12n_sturgeon_readCounts.rda
 	wget --directory-prefix=data/sturg --no-clobber https://datadryad.org/stash/downloads/file_stream/711275
 	mv ./data/sturg/711275 ./data/sturg/white_sturgeon_genos.zip
+	mkdir -p ./data/sturg/gt_genos
+	7z e ./data/sturg/white_sturgeon_genos.zip -o./data/sturg/gt_genos
 
 $(sturg_n) : ./analysis/sturg/sturg_nmat.R $(sturg_dat)
 	mkdir -p ./output/rout
