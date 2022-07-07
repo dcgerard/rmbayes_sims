@@ -31,7 +31,7 @@ tibble(gl = glvec, s1 = s1vec, snp = shirdat$snpdf$snp) %>%
   filter(gl > 0, s1 < 0) %>%
   arrange(desc(diff)) %>%
   select(-diff) %>%
-  slice(1:9 * 5) ->
+  slice(1:8 * 5) ->
   badsnp
 
 ## Genotype plots of bad snps
