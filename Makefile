@@ -52,6 +52,11 @@ shir_plots = ./output/shir/shir_bf_hist.pdf \
              ./output/shir/shir_bf_scatter.pdf \
              ./output/shir/shir_bad_tab.tex
 
+## Comparing GL to S1 in Shirasawa Data
+s1_plots = ./output/shir/s1_compare/s1_snps.pdf \
+           ./output/shir/s1_compare/s1_badsnp.tex \
+           ./output/shir/s1_compare/s1_g0.pdf
+
 ## Plots in GL simulations
 gl_plots = ./output/gl/gl_consist.pdf \
            ./output/gl/bf_compare_null.pdf \
@@ -93,7 +98,7 @@ $(large_plots) : ./analysis/large/large_plot.R ./output/large_samp/ldf.RDS
 
 ## Data analysis using Shirasawa data
 .PHONY : shir
-shir : $(shir_plots)
+shir : $(shir_plots) $(s1_plots)
 
 ./data/shir/KDRIsweetpotatoXushu18S1LG2017.vcf :
 	mkdir -p ./data/shir
@@ -126,6 +131,16 @@ $(count_shir) : ./analysis/shir/shir_filter.R ./data/shir/KDRIsweetpotatoXushu18
 	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
 
 $(shir_plots) : ./analysis/shir/shir_plot.R ./output/shir/shir_bfdf.csv ./output/shir/bf_gl.RDS
+	mkdir -p ./output/rout
+	mkdir -p ./output/shir
+	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
+
+./output/shir/bf_s1.RDS : ./analysis/shir/shir_s1test.R ./output/shir/shir_updog.RDS
+	mkdir -p ./output/rout
+	mkdir -p ./output/shir
+	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
+
+$(s1_plots) : ./analysis/shir/shir_compare_s1.R ./output/shir/bf_s1.RDS ./output/shir/bf_gl.RDS ./output/shir/shir_updog.RDS
 	mkdir -p ./output/rout
 	mkdir -p ./output/shir
 	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
