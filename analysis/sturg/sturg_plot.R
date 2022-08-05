@@ -81,9 +81,20 @@ plot_geno(refvec = refvec,
           geno = local_mode1$geno,
           seq = local_mode1$seq,
           bias = local_mode1$bias,
-          use_colorblind = TRUE) +
+          use_colorblind = TRUE) ->
+  p1
+p1$layers[[1]] <- NULL
+p1 +
+  geom_point(mapping = aes(y = A, x = a, color = genotype, shape = genotype)) +
   ggtitle(paste0("(B) LL = ", round(local_mode1$llike))) +
-  labs(color = "Genotype\nEstimate")->
+  scale_shape_manual(name = "Genotype\nEstimate",
+                     labels = 0:4,
+                     values = 5:1,
+                     drop = FALSE) +
+  scale_color_manual(name = "Genotype\nEstimate",
+                     labels = 0:4,
+                     values = rev(ggthemes::colorblind_pal()(5)),
+                     drop = FALSE) ->
   p1
 
 
@@ -93,9 +104,21 @@ plot_geno(refvec = refvec,
           geno = global_mode1$geno,
           seq = global_mode1$seq,
           bias = global_mode1$bias,
-          use_colorblind = TRUE) +
+          use_colorblind = TRUE) ->
+  p2
+p2$layers[[1]] <- NULL
+p2 +
+  geom_point(mapping = aes(y = A, x = a, color = genotype, shape = genotype)) +
   ggtitle(paste0("(A) LL = ", round(global_mode1$llike))) +
-  guides(color = "none") ->
+    scale_shape_manual(name = "Genotype\nEstimate",
+                     labels = 0:4,
+                     values = 5:1,
+                     drop = FALSE) +
+  scale_color_manual(name = "Genotype\nEstimate",
+                     labels = 0:4,
+                     values = rev(ggthemes::colorblind_pal()(5)),
+                     drop = FALSE) +
+  guides(color = "none", shape = "none") ->
   p2
 
 pdf(file = "./output/sturg/sturg_twofits.pdf", height = 2.6, width = 6, family = "Times")
