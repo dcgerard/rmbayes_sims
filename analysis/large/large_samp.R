@@ -14,6 +14,11 @@ paramdf$bf_time <- rep(NA_real_, length.out = nrow(paramdf))
 paramdf$p <- rep(NA_real_, length.out = nrow(paramdf))
 paramdf$p_time <- rep(NA_real_, length.out = nrow(paramdf))
 
+## For sensativity analysis
+paramdf$bf_low <- rep(NA_real_, length.out = nrow(paramdf))
+paramdf$bf_high <- rep(NA_real_, length.out = nrow(paramdf))
+paramdf$bf_weird <- rep(NA_real_, length.out = nrow(paramdf))
+
 for (i in seq_len(nrow(paramdf))) {
   set.seed(paramdf$seed[[i]])
 
@@ -35,5 +40,20 @@ for (i in seq_len(nrow(paramdf))) {
   paramdf$p_time[[i]] <- as.numeric(bench::system_time(
     paramdf$p[[i]] <- log(rmlike(nvec = paramdf$x[[i]], thresh = 0)$p_rm)
   )[[2]])
+
+  ## Sensativity analysis
+  ngam <- paramdf$ploidy[[i]] / 2 + 1
+  alpha <- rep(1 / ngam, ngam)
+  beta <- hwep:::beta_from_alpha(alpha = alpha)
+  paramdf$bf_low[[i]] <- rmbayes(nvec = paramdf$x[[i]], alpha = alpha, beta = beta, lg = TRUE)
+
+  alpha <- rep(2, ngam)
+  beta <- hwep:::beta_from_alpha(alpha = alpha)
+  paramdf$bf_high[[i]] <- rmbayes(nvec = paramdf$x[[i]], alpha = alpha, beta = beta, lg = TRUE)
+
+  alpha <- seq_len(ngam)
+  alpha <- alpha / sum(alpha) * ngam
+  beta <- hwep:::beta_from_alpha(alpha = alpha)
+  paramdf$bf_weird[[i]] <- rmbayes(nvec = paramdf$x[[i]], alpha = alpha, beta = beta, lg = TRUE)
 }
 saveRDS(object = paramdf, file =  "./output/large_samp/ldf.RDS")

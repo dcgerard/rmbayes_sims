@@ -11,11 +11,13 @@ gldf <- readRDS("./output/gl/gldf.RDS")
 gldf %>%
   mutate(n = as.factor(n),
          ploidy = paste0("Ploidy = ", ploidy)) %>%
-  select(n, ploidy, condition, bf_mean, bfstan) %>%
-  gather(bf_mean, bfstan, key = "Method", value = "bf") %>%
-  mutate(simv = case_when(condition == "null" & Method == "bf_mean" ~ "Null, Known",
+  select(n, ploidy, condition, bf_mode, bf_mean, bfstan) %>%
+  gather(bf_mode, bf_mean, bfstan, key = "Method", value = "bf") %>%
+  mutate(simv = case_when(condition == "null" & Method == "bf_mean" ~ "Null, Mean",
+                          condition == "null" & Method == "bf_mode" ~ "Null, Mode",
                           condition == "null" & Method == "bfstan" ~ "Null, GL",
-                          condition == "alt" & Method == "bf_mean" ~ "Alt, Known",
+                          condition == "alt" & Method == "bf_mean" ~ "Alt, Mean",
+                          condition == "alt" & Method == "bf_mode" ~ "Alt, Mode",
                           condition == "alt" & Method == "bfstan" ~ "Alt, GL")) %>%
   ggplot(aes(x = n, y = bf)) +
   facet_grid(simv ~ ploidy, scales = "free_y") +
