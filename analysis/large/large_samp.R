@@ -41,11 +41,11 @@ for (i in seq_len(nrow(paramdf))) {
     paramdf$p[[i]] <- log(rmlike(nvec = paramdf$x[[i]], thresh = 0)$p_rm)
   )[[2]])
 
-  ## Sensativity analysis
+  ## Sensitivity analysis
   ngam <- paramdf$ploidy[[i]] / 2 + 1
-  alpha <- rep(1 / ngam, ngam)
+  alpha <- rep(1 / 2, ngam)
   beta <- hwep:::beta_from_alpha(alpha = alpha)
-  paramdf$bf_low[[i]] <- rmbayes(nvec = paramdf$x[[i]], alpha = alpha, beta = beta, lg = TRUE)
+  paramdf$bf_low[[i]] <- rmbayes(nvec = paramdf$x[[i]], alpha = alpha, beta = beta, lg = TRUE, nburn = 50000, niter = 100000)
 
   alpha <- rep(2, ngam)
   beta <- hwep:::beta_from_alpha(alpha = alpha)

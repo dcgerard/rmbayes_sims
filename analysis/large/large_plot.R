@@ -4,6 +4,28 @@ library(hwep)
 
 ldf <- readRDS("./output/large_samp/ldf.RDS")
 
+## Sensitivity analysis plot
+ldf %>%
+  mutate(n = factor(n),
+         ploidy = paste0("Ploidy = ", ploidy)) %>%
+  select(n, ploidy, condition, a0 = bf, a1 = bf_low, a2 = bf_high, a3 = bf_weird) %>%
+  gather(key = "prior", value = "bf", a0:a3) %>%
+  ggplot(aes(x = n, y = bf, color = prior)) +
+  geom_boxplot() +
+  facet_grid(condition ~ ploidy, scales = "free_y") +
+  theme_bw() +
+  theme(strip.background = element_rect(fill = "white")) +
+  geom_hline(yintercept = 0, lty = 2, col = 2) +
+  ylab("log Bayes Factor") +
+  scale_color_colorblind(labels = expression(alpha[0], alpha[1], alpha[2], alpha[3])) ->
+  pl
+
+ggsave(filename = "./output/large_samp/bf_sensitive.pdf",
+       plot = pl,
+       height = 3,
+       width = 6,
+       family = "Times")
+
 ## Bayes factor plot
 ldf %>%
   mutate(n = as.factor(n),
@@ -14,7 +36,7 @@ ldf %>%
   theme_bw() +
   theme(strip.background = element_rect(fill = "white")) +
   geom_hline(yintercept = 0, lty = 2, col = 2) +
-  ylab("log Bayes factor") ->
+  ylab("log Bayes Factor") ->
   pl
 
 ggsave(filename = "./output/large_samp/bf_large.pdf",

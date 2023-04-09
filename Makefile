@@ -23,7 +23,8 @@ small_plots = ./output/small_samp/small_bf_hist.pdf \
 ## Large sample plots
 large_plots = ./output/large_samp/qqpvalue.pdf \
               ./output/large_samp/bf_large.pdf \
-              ./output/large_samp/time_large.pdf
+              ./output/large_samp/time_large.pdf \
+              ./output/large_samp/bf_sensitive.pdf \
 
 ## Raw data from Delomas et al (2021)
 sturg_dat = ./data/sturg/2n_3n_Chinook_readCounts.rda \
