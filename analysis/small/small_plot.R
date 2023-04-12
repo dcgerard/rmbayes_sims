@@ -166,21 +166,21 @@ hwep:::ddirmult(x = x2, alpha = rep(1, 9), lg = TRUE)
 
 ## See if monotonicity is important ----
 
-#' Checks if x is monotone
+#' Checks if x is unimodal
 #'
 #' @param x a sequence
 #'
 #' @author David Gerard
 #'
 #' @examples
-#' is_monotone(c(1, 2, 3, 3, 2, 1))
-#' is_monotone(c(1, 2, 3, 1, 2, 1))
-#' is_monotone(c(3, 2, 1))
-#' is_monotone(c(1, 2, 3))
-#' is_monotone(c(1, 1, 1))
-#' is_monotone(c(NA, NA, 1, 3, 4, 0))
+#' is_unimodal(c(1, 2, 3, 3, 2, 1))
+#' is_unimodal(c(1, 2, 3, 1, 2, 1))
+#' is_unimodal(c(3, 2, 1))
+#' is_unimodal(c(1, 2, 3))
+#' is_unimodal(c(1, 1, 1))
+#' is_unimodal(c(NA, NA, 1, 3, 4, 0))
 #'
-is_monotone <- function(x) {
+is_unimodal <- function(x) {
   x <- x[!is.na(x)]
   if (length(x) <= 1) {
     return(TRUE)
@@ -204,7 +204,7 @@ is_monotone <- function(x) {
 bfp %>%
   select(starts_with("D")) %>%
   as.matrix() %>%
-  apply(MARGIN = 1, FUN = is_monotone) ->
+  apply(MARGIN = 1, FUN = is_unimodal) ->
   monovec
 
 bfp$mono <- monovec
@@ -216,11 +216,11 @@ bfp %>%
   theme_bw() +
   geom_hline(yintercept = 0, lty = 2, col = 2) +
   theme(strip.background = element_rect(fill = "white")) +
-  xlab("Monotone") +
+  xlab("Unimodal") +
   ylab("Log Bayes Factor") ->
   pl
 
-ggsave(filename = "./output/small_samp/small_monotone_box.pdf",
+ggsave(filename = "./output/small_samp/small_unimodal_box.pdf",
        plot = pl,
        height = 3,
        width = 6,
@@ -228,4 +228,4 @@ ggsave(filename = "./output/small_samp/small_monotone_box.pdf",
 
 pseq <- expand.grid(p0 = ppoints(100), p1 = ppoints(100))
 pseq$p2 <- 1 - pseq$p0 - pseq$p1
-pseq$mono <- apply(as.matrix(pseq), 1, is_monotone)
+pseq$mono <- apply(as.matrix(pseq), 1, is_unimodal)

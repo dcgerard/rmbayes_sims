@@ -17,7 +17,7 @@ rexec = R CMD BATCH --no-save --no-restore
 ## Small sample plots
 small_plots = ./output/small_samp/small_bf_hist.pdf \
               ./output/small_samp/small_bfp_hex.pdf \
-              ./output/small_samp/small_monotone_box.pdf \
+              ./output/small_samp/small_unimodal_box.pdf \
               ./output/small_samp/tab_extreme_bf.tex
 
 ## Large sample plots
