@@ -25,7 +25,9 @@ nrep <- 100
 paramdf <- expand_grid(seed = seq_len(nrep),
                        n = c(10, 100, 1000),
                        ploidy = c(4, 6, 8),
-                       condition = c("null", "alt"))
+                       condition = c("null", "alt"),
+                       est = c(TRUE, FALSE),
+                       priorclass = c("norm", "unif"))
 paramdf$x <- vector(mode = "list", length = nrow(paramdf))
 
 # using posterior mean
@@ -53,6 +55,7 @@ paramdf$bfgl_time <- rep(NA_real_, length.out = nrow(paramdf))
 paramdf$bfstan_time <- rep(NA_real_, length.out = nrow(paramdf))
 
 ## shuffle paramdf for even load ----
+set.seed(1)
 paramdf <- paramdf[sample(1:nrow(paramdf)), ]
 
 ## Set up workers ----
@@ -86,7 +89,9 @@ simdf <- foreach(i = seq_len(nrow(paramdf)),
                 od = 0.01,
                 bias = 1,
                 seq = 0.01,
-                ret = "all")
+                ret = "all",
+                est = paramdf$est[[i]],
+                model = paramdf$priorclass[[i]])
   gl <- fout$genologlike
   gp <- fout$postmat
 
