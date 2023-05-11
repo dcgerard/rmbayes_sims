@@ -10,6 +10,7 @@ cat(nc, "\n")
 ## for analysis ----
 library(hwep)
 library(tidyr)
+library(dplyr)
 library(readr)
 library(bench)
 
@@ -27,7 +28,10 @@ paramdf <- expand_grid(seed = seq_len(nrep),
                        ploidy = c(4, 6, 8),
                        condition = c("null", "alt"),
                        est = c(TRUE, FALSE),
-                       priorclass = c("norm", "unif"))
+                       priorclass = c("norm", "unif", "flex"))
+paramdf %>%
+  filter(est | priorclass == "norm") ->
+  paramdf
 paramdf$x <- vector(mode = "list", length = nrow(paramdf))
 
 # using posterior mean

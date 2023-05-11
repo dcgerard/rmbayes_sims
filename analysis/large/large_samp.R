@@ -18,15 +18,17 @@ paramdf$p_time <- rep(NA_real_, length.out = nrow(paramdf))
 paramdf$bf_low <- rep(NA_real_, length.out = nrow(paramdf))
 paramdf$bf_high <- rep(NA_real_, length.out = nrow(paramdf))
 paramdf$bf_weird <- rep(NA_real_, length.out = nrow(paramdf))
+paramdf$bf_allo <- rep(NA_real_, length.out = nrow(paramdf))
 
 for (i in seq_len(nrow(paramdf))) {
   set.seed(paramdf$seed[[i]])
+  cat("Iteration:", i, " / ", nrow(paramdf), "\n")
 
   if (paramdf$condition[[i]] == "null") {
     pvec <- rep(1, length.out = paramdf$ploidy[[i]] / 2 + 1)
     pvec <- pvec / sum(pvec)
     qvec <- stats::convolve(pvec, rev(pvec), type = "open")
-  } else {
+  } else if (paramdf$condition[[i]] == "alt") {
     qvec <- rep(1, length.out = paramdf$ploidy[[i]] + 1)
     qvec <- qvec / sum(qvec)
   }
@@ -55,5 +57,7 @@ for (i in seq_len(nrow(paramdf))) {
   alpha <- alpha / sum(alpha) * ngam
   beta <- hwep:::beta_from_alpha(alpha = alpha)
   paramdf$bf_weird[[i]] <- rmbayes(nvec = paramdf$x[[i]], alpha = alpha, beta = beta, lg = TRUE)
+
+  paramdf$bf_allo[[i]] <- rmbayes(nvec = paramdf$x[[i]], type = "allo")
 }
 saveRDS(object = paramdf, file =  "./output/large_samp/ldf.RDS")

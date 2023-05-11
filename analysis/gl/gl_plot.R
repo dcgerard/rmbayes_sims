@@ -11,6 +11,7 @@ gldf <- readRDS("./output/gl/gldf.RDS")
 gldf %>%
   mutate(n = as.factor(n),
          ploidy = paste0("Ploidy = ", ploidy)) %>%
+  filter(est, priorclass == "norm") %>%
   select(n, ploidy, condition, bf_mode, bf_mean, bfstan) %>%
   gather(bf_mode, bf_mean, bfstan, key = "Method", value = "bf") %>%
   mutate(simv = case_when(condition == "null" & Method == "bf_mean" ~ "Null, Mean",
@@ -38,6 +39,7 @@ ggsave(filename = "./output/gl/gl_consist.pdf",
 ## Show Gibbs sampler falls short ----
 
 gldf %>%
+  filter(est, priorclass == "norm") %>%
   mutate(n = as.factor(n),
          ploidy = paste0("Ploidy = ", ploidy)) %>%
   select(n, ploidy, condition, bfgl) %>%
@@ -60,6 +62,7 @@ ggsave("./output/gl/gl_box_gibbs.pdf",
 ## Compare Gibbs to Stan ----
 
 gldf %>%
+  filter(est, priorclass == "norm") %>%
   filter(condition == "null") %>%
   mutate(n = as.factor(paste0("n = ", n)),
          ploidy = paste0("Ploidy = ", ploidy)) %>%
@@ -80,6 +83,7 @@ ggsave(filename = "./output/gl/bf_compare_null.pdf",
        family = "Times")
 
 gldf %>%
+  filter(est, priorclass == "norm") %>%
   filter(condition == "alt") %>%
   mutate(n = as.factor(paste0("n = ", n)),
          ploidy = paste0("Ploidy = ", ploidy)) %>%
@@ -102,6 +106,7 @@ ggsave(filename = "./output/gl/bf_compare_alt.pdf",
 ## Timing ----
 
 gldf %>%
+  filter(est, priorclass == "norm") %>%
   mutate(n = factor(n),
          ploidy = paste0("Ploidy = ", ploidy)) %>%
   select(n, ploidy, Gibbs = bfgl_time, Stan = bfstan_time) %>%
@@ -122,3 +127,23 @@ ggsave(filename = "./output/gl/gl_time.pdf",
        height = 2,
        width = 6,
        family = "Times")
+
+
+## Different Genotype Likelihoods ----
+
+gldf %>%
+  select(n, ploidy, condition, est, priorclass, bfstan) %>%
+  unite(col = "gl", sep = "_", priorclass, est) %>%
+  mutate(gl = case_when(gl == "norm_TRUE" ~ "Norm, Est",
+                        gl == "norm_FALSE" ~ "Norm, Known",
+                        gl == "unif_TRUE" ~ "Unif, Est",
+                        gl == "unif_FALSE" ~ "Unif, Known")) %>%
+  mutate(n = factor(n),
+         ploidy = paste0("Ploidy = ", ploidy))  %>%
+  ggplot(aes(x = n, y = bfstan, color = gl)) +
+  facet_grid(condition ~ ploidy, scales = "free_y") +
+  geom_boxplot() +
+  theme_bw() +
+  theme(strip.background = element_rect(fill = "white")) +
+  scale_color_colorblind(name = "Genotype\nLikelihoods") +
+  geom_hline(yintercept = 0, lty = 2)

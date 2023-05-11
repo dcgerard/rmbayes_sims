@@ -1,15 +1,24 @@
 library(tidyverse)
 library(ggthemes)
 library(hwep)
+library(latex2exp)
 
 ldf <- readRDS("./output/large_samp/ldf.RDS")
 
 ## Sensitivity analysis plot
 ldf %>%
+  filter(condition == "alt" | condition == "null") %>%
   mutate(n = factor(n),
          ploidy = paste0("Ploidy = ", ploidy)) %>%
-  select(n, ploidy, condition, a0 = bf, a1 = bf_low, a2 = bf_high, a3 = bf_weird) %>%
-  gather(key = "prior", value = "bf", a0:a3) %>%
+  select(n, ploidy, condition, a_auto = bf, a_allo = bf_allo, a1 = bf_low, a2 = bf_high, a3 = bf_weird) %>%
+  gather(key = "prior", value = "bf", a_auto, a_allo, a1, a2, a3) %>%
+  mutate(prior = recode(prior,
+                        "a_auto" = "alpha[auto]",
+                        "a_allo" = "alpha[allo]",
+                        "a1" = "alpha[1]",
+                        "a2" = "alpha[2]",
+                        "a3" = "alpha[3]"),
+         prior = parse_factor(prior)) %>%
   ggplot(aes(x = n, y = bf, color = prior)) +
   geom_boxplot() +
   facet_grid(condition ~ ploidy, scales = "free_y") +
@@ -17,7 +26,8 @@ ldf %>%
   theme(strip.background = element_rect(fill = "white")) +
   geom_hline(yintercept = 0, lty = 2, col = 2) +
   ylab("log Bayes Factor") +
-  scale_color_colorblind(labels = expression(alpha[0], alpha[1], alpha[2], alpha[3])) ->
+  scale_color_colorblind(name = "Prior", labels = scales::parse_format()) +
+  theme(legend.text.align = 0) ->
   pl
 
 ggsave(filename = "./output/large_samp/bf_sensitive.pdf",
@@ -28,6 +38,7 @@ ggsave(filename = "./output/large_samp/bf_sensitive.pdf",
 
 ## Bayes factor plot
 ldf %>%
+  filter(condition == "alt" | condition == "null") %>%
   mutate(n = as.factor(n),
          ploidy = paste0("Ploidy = ", ploidy)) %>%
   ggplot(aes(x = n, y = bf)) +
@@ -47,6 +58,7 @@ ggsave(filename = "./output/large_samp/bf_large.pdf",
 
 ## p-value plot
 ldf %>%
+  filter(condition == "alt" | condition == "null") %>%
   mutate(n = as.factor(n),
          ploidy = paste0("Ploidy = ", ploidy)) %>%
   ggplot(aes(x = n, y = p)) +
@@ -107,6 +119,7 @@ ldf %>%
 
 ## Time plot
 ldf %>%
+  filter(condition == "alt" | condition == "null") %>%
   mutate(n = as.factor(n),
          ploidy = paste0("Ploidy = ", ploidy)) %>%
   gather(key = "Method", value = "Time", bf_time, p_time) %>%

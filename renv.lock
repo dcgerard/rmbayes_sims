@@ -3,6 +3,26 @@
     "Version": "4.2.1",
     "Repositories": [
       {
+        "Name": "BioCsoft",
+        "URL": "https://bioconductor.org/packages/3.16/bioc"
+      },
+      {
+        "Name": "BioCann",
+        "URL": "https://bioconductor.org/packages/3.16/data/annotation"
+      },
+      {
+        "Name": "BioCexp",
+        "URL": "https://bioconductor.org/packages/3.16/data/experiment"
+      },
+      {
+        "Name": "BioCworkflows",
+        "URL": "https://bioconductor.org/packages/3.16/workflows"
+      },
+      {
+        "Name": "BioCbooks",
+        "URL": "https://bioconductor.org/packages/3.16/books"
+      },
+      {
         "Name": "CRAN",
         "URL": "https://cloud.r-project.org"
       }
@@ -142,6 +162,16 @@
         "tools"
       ],
       "Hash": "2f96961b653e126bfca131ede146a613"
+    },
+    "BiocManager": {
+      "Package": "BiocManager",
+      "Version": "1.30.20",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "utils"
+      ],
+      "Hash": "a7fca16a50b6ef7771b49d636dd54b57"
     },
     "BiocParallel": {
       "Package": "BiocParallel",
@@ -1809,8 +1839,13 @@
     "hwep": {
       "Package": "hwep",
       "Version": "2.0.2",
-      "Source": "Repository",
-      "Repository": "CRAN",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "hwep",
+      "RemoteUsername": "dcgerard",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "f3d0442ddd4bfa19d97b3fcd811ac9b63cb6056b",
       "Requirements": [
         "BH",
         "R",
@@ -1831,7 +1866,7 @@
         "tensr",
         "updog"
       ],
-      "Hash": "1483fd5fd985828919f39aea304bfeeb"
+      "Hash": "0afddea203fd9f75b4dbb1859200bfc4"
     },
     "ids": {
       "Package": "ids",
@@ -1933,6 +1968,17 @@
         "formatR"
       ],
       "Hash": "b1e925c4b9ffeb901bacf812cbe9a6ad"
+    },
+    "latex2exp": {
+      "Package": "latex2exp",
+      "Version": "0.9.6",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "magrittr",
+        "stringr"
+      ],
+      "Hash": "f0173e0120a278700d48998e5a93a000"
     },
     "lattice": {
       "Package": "lattice",
