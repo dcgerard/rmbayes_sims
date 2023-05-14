@@ -134,16 +134,24 @@ ggsave(filename = "./output/gl/gl_time.pdf",
 gldf %>%
   select(n, ploidy, condition, est, priorclass, bfstan) %>%
   unite(col = "gl", sep = "_", priorclass, est) %>%
-  mutate(gl = case_when(gl == "norm_TRUE" ~ "Norm, Est",
-                        gl == "norm_FALSE" ~ "Norm, Known",
-                        gl == "unif_TRUE" ~ "Unif, Est",
-                        gl == "unif_FALSE" ~ "Unif, Known")) %>%
+  mutate(gl = case_when(gl == "norm_FALSE" ~ "Oracle",
+                        gl == "norm_TRUE" ~ "Norm",
+                        gl == "unif_TRUE" ~ "Unif",
+                        gl == "flex_TRUE" ~ "Flex")) %>%
   mutate(n = factor(n),
-         ploidy = paste0("Ploidy = ", ploidy))  %>%
+         ploidy = paste0("Ploidy = ", ploidy),
+         gl = parse_factor(gl, levels = c("Oracle", "Norm", "Flex", "Unif")))  %>%
   ggplot(aes(x = n, y = bfstan, color = gl)) +
   facet_grid(condition ~ ploidy, scales = "free_y") +
   geom_boxplot() +
   theme_bw() +
   theme(strip.background = element_rect(fill = "white")) +
   scale_color_colorblind(name = "Genotype\nLikelihoods") +
-  geom_hline(yintercept = 0, lty = 2)
+  geom_hline(yintercept = 0, lty = 2) ->
+  pl
+
+ggsave(filename = "./output/gl/gl_sens.pdf",
+       plot = pl,
+       height = 4,
+       width = 6,
+       family = "Times")
