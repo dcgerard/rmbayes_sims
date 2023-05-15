@@ -11,7 +11,7 @@ gldf <- readRDS("./output/gl/gldf.RDS")
 gldf %>%
   mutate(n = as.factor(n),
          ploidy = paste0("Ploidy = ", ploidy)) %>%
-  filter(est, priorclass == "norm") %>%
+  filter(est, priorclass == "flex") %>%
   select(n, ploidy, condition, bf_mode, bf_mean, bfstan) %>%
   gather(bf_mode, bf_mean, bfstan, key = "Method", value = "bf") %>%
   mutate(simv = case_when(condition == "null" & Method == "bf_mean" ~ "Null, Mean",
@@ -39,7 +39,7 @@ ggsave(filename = "./output/gl/gl_consist.pdf",
 ## Show Gibbs sampler falls short ----
 
 gldf %>%
-  filter(est, priorclass == "norm") %>%
+  filter(est, priorclass == "flex") %>%
   mutate(n = as.factor(n),
          ploidy = paste0("Ploidy = ", ploidy)) %>%
   select(n, ploidy, condition, bfgl) %>%
@@ -62,7 +62,7 @@ ggsave("./output/gl/gl_box_gibbs.pdf",
 ## Compare Gibbs to Stan ----
 
 gldf %>%
-  filter(est, priorclass == "norm") %>%
+  filter(est, priorclass == "flex") %>%
   filter(condition == "null") %>%
   mutate(n = as.factor(paste0("n = ", n)),
          ploidy = paste0("Ploidy = ", ploidy)) %>%
@@ -83,7 +83,7 @@ ggsave(filename = "./output/gl/bf_compare_null.pdf",
        family = "Times")
 
 gldf %>%
-  filter(est, priorclass == "norm") %>%
+  filter(est, priorclass == "flex") %>%
   filter(condition == "alt") %>%
   mutate(n = as.factor(paste0("n = ", n)),
          ploidy = paste0("Ploidy = ", ploidy)) %>%
@@ -106,7 +106,7 @@ ggsave(filename = "./output/gl/bf_compare_alt.pdf",
 ## Timing ----
 
 gldf %>%
-  filter(est, priorclass == "norm") %>%
+  filter(est, priorclass == "flex") %>%
   mutate(n = factor(n),
          ploidy = paste0("Ploidy = ", ploidy)) %>%
   select(n, ploidy, Gibbs = bfgl_time, Stan = bfstan_time) %>%
