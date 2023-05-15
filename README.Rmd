@@ -25,55 +25,13 @@ This repo contains the scripts and instructions to reproduce the results of @ger
 
 To run these scripts, you will need to have the latest version of R and GNU Make.
 
-1. Install the appropriate R packages
+1. Open up the `rmbayes_sims` R project and restore the renv:
 
     ```{r, eval = FALSE}
-    install.packages(c("devtools",
-                       "tidyverse",
-                       "bench",
-                       "ggthemes",
-                       "ggpubr",
-                       "xtable",
-                       "hexbin", 
-                       "broom",
-                       "patchwork",
-                       "foreach",
-                       "future",
-                       "doFuture",
-                       "rngtools",
-                       "doRNG"))
-    devtools::install_github("dcgerard/hwep")
-    devtools::install_github("dcgerard/updog")
+    renv::restore()
     ```
     
 2. Run `make` in the terminal.
-
-## Session Information
-
-```{r, echo = FALSE, message=FALSE, warning=FALSE, results='hide'}
-lapply(c("devtools",
-         "tidyverse",
-         "ggthemes",
-         "ggpubr",
-         "hwep",
-         "updog",
-         "bench",
-         "xtable",
-         "hexbin",
-         "broom",
-         "patchwork",
-         "foreach",
-         "future",
-         "doFuture",
-         "rngtools",
-         "doRNG"), 
-       FUN = library,
-       character.only = TRUE)
-```
-
-```{r, echo = FALSE, comment=""}
-sessionInfo()
-```
 
 ## Acknowledgments
 
