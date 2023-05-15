@@ -141,6 +141,9 @@ gldf %>%
   mutate(n = factor(n),
          ploidy = paste0("Ploidy = ", ploidy),
          gl = parse_factor(gl, levels = c("Oracle", "Norm", "Flex", "Unif")))  %>%
+  mutate(condition = recode(condition,
+                            "alt" = "Alt",
+                            "null" = "Null")) %>%
   ggplot(aes(x = n, y = bfstan, color = gl)) +
   facet_grid(condition ~ ploidy, scales = "free_y") +
   geom_boxplot() +
