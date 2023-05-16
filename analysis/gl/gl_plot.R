@@ -26,7 +26,8 @@ gldf %>%
   theme_bw() +
   theme(strip.background = element_rect(fill = "white")) +
   geom_hline(yintercept = 0, lty = 2, col = 2) +
-  ylab("log Bayes factor") +
+  ylab("Log Bayes Factor") +
+  xlab("Sample Size") +
   scale_color_colorblind() ->
   pl
 
@@ -42,6 +43,9 @@ gldf %>%
   filter(est, priorclass == "flex") %>%
   mutate(n = as.factor(n),
          ploidy = paste0("Ploidy = ", ploidy)) %>%
+  mutate(condition = recode(condition,
+                            "alt" = "Alt",
+                            "null" = "Null")) %>%
   select(n, ploidy, condition, bfgl) %>%
   ggplot(aes(x = n, y = bfgl)) +
   facet_grid(condition ~ ploidy, scales = "free_y") +
@@ -49,7 +53,8 @@ gldf %>%
   theme_bw() +
   theme(strip.background = element_rect(fill = "white")) +
   geom_hline(yintercept = 0, lty = 2, col = 2) +
-  ylab("log Bayes factor") +
+  ylab("Log Bayes Factor") +
+  xlab("Sample Size") +
   scale_color_colorblind() ->
   pl
 
@@ -72,8 +77,8 @@ gldf %>%
   facet_wrap(n ~ ploidy, scales = "free") +
   theme_bw() +
   theme(strip.background = element_rect(fill = "white", color = "black")) +
-  xlab("BF from Gibbs Sampler") +
-  ylab("BF from Stan") ->
+  xlab("Log BF from Gibbs Sampler") +
+  ylab("Log BF from Stan") ->
   pl
 
 ggsave(filename = "./output/gl/bf_compare_null.pdf",
@@ -93,8 +98,8 @@ gldf %>%
   facet_wrap(n ~ ploidy, scales = "free") +
   theme_bw() +
   theme(strip.background = element_rect(fill = "white", color = "black")) +
-  xlab("BF from Gibbs Sampler") +
-  ylab("BF from Stan") ->
+  xlab("Log BF from Gibbs Sampler") +
+  ylab("Log BF from Stan") ->
   pl
 
 ggsave(filename = "./output/gl/bf_compare_alt.pdf",
@@ -146,11 +151,13 @@ gldf %>%
                             "null" = "Null")) %>%
   ggplot(aes(x = n, y = bfstan, color = gl)) +
   facet_grid(condition ~ ploidy, scales = "free_y") +
-  geom_boxplot() +
+  geom_boxplot(outlier.size = 0.5) +
   theme_bw() +
   theme(strip.background = element_rect(fill = "white")) +
   scale_color_colorblind(name = "Genotype\nLikelihoods") +
-  geom_hline(yintercept = 0, lty = 2) ->
+  geom_hline(yintercept = 0, lty = 2) +
+  xlab("Sample Size") +
+  ylab("Log Bayes Factor") ->
   pl
 
 ggsave(filename = "./output/gl/gl_sens.pdf",

@@ -19,6 +19,7 @@ bfp %>%
   geom_histogram(aes(y = ..density..), bins = 20, color = "black", fill = "white") +
   theme_bw() +
   xlab("Log Bayes Factor") +
+  ylab("Density") +
   theme(strip.background = element_rect(fill = "white")) ->
   pl
 
