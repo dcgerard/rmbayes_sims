@@ -1839,13 +1839,8 @@
     "hwep": {
       "Package": "hwep",
       "Version": "2.0.2",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteRepo": "hwep",
-      "RemoteUsername": "dcgerard",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "f3d0442ddd4bfa19d97b3fcd811ac9b63cb6056b",
+      "Source": "Repository",
+      "Repository": "CRAN",
       "Requirements": [
         "BH",
         "R",
@@ -1866,7 +1861,7 @@
         "tensr",
         "updog"
       ],
-      "Hash": "0afddea203fd9f75b4dbb1859200bfc4"
+      "Hash": "1483fd5fd985828919f39aea304bfeeb"
     },
     "ids": {
       "Package": "ids",
