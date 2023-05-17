@@ -14,7 +14,8 @@ of Gerard (2022).
 To run these scripts, you will need to have the latest version of R and
 GNU Make.
 
-1.  Open up the `rmbayes_sims` R project and restore the renv:
+1.  Open up the rmbayes_sims R project (by double clicking on
+    “rmbayes_sims.Rproj”) and restore the renv:
 
     ``` r
     renv::restore()
