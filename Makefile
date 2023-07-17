@@ -68,7 +68,7 @@ gl_plots = ./output/gl/gl_consist.pdf \
 
 ## run all scripts
 .PHONY : all
-all : small large shir sturg gl
+all : small large shir sturg gl allo
 
 # Small sample analyses
 .PHONY : small
@@ -196,4 +196,13 @@ gl : $(gl_plots)
 $(gl_plots) : ./analysis/gl/gl_plot.R ./output/gl/gldf.RDS
 	mkdir -p ./output/rout
 	mkdir -p ./output/gl
+	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
+
+## Allopolyploid plots
+.PHONY : allo
+allo : ./output/allo/gf_allo.pdf
+
+./output/allo/gf_allo.pdf : ./analysis/allo/rm.R
+	mkdir -p ./output/rout
+	mkdir -p ./output/allo
 	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
