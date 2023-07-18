@@ -150,7 +150,7 @@ $(s1_plots) : ./analysis/shir/shir_compare_s1.R ./output/shir/bf_s1.RDS ./output
 
 ## Data analysis of Sturgeon data from Delomas et al (2021)
 .PHONY : sturg
-sturg : $(sturg_plots) ./output/sturg/equi_pval_qq.pdf
+sturg : $(sturg_plots) ./output/sturg/equi_pval_qq.pdf ./output/sturg/sturg_related.pdf
 
 $(sturg_dat) :
 	mkdir -p ./data/sturg
@@ -181,6 +181,11 @@ $(sturg_plots) : ./analysis/sturg/sturg_plot.R ./output/sturg/sturg_bfdf.csv
 	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
 
 ./output/sturg/equi_pval_qq.pdf : ./analysis/sturg/sturg_equi_p.R ./output/sturg/sturg_bfdf.csv
+	mkdir -p ./output/rout
+	mkdir -p ./output/sturg
+	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
+
+./output/sturg/sturg_related.pdf : ./analysis/sturg/sturg_related.R ./output/sturg/sturg_updog.RDS
 	mkdir -p ./output/rout
 	mkdir -p ./output/sturg
 	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout

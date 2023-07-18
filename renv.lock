@@ -32,6 +32,18 @@
     "Version": "3.17"
   },
   "Packages": {
+    "AGHmatrix": {
+      "Package": "AGHmatrix",
+      "Version": "2.1.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "Matrix",
+        "R",
+        "zoo"
+      ],
+      "Hash": "946b147e8953638717eac2eafa5b2288"
+    },
     "AnnotationDbi": {
       "Package": "AnnotationDbi",
       "Version": "1.62.2",
@@ -3224,6 +3236,21 @@
       "Version": "1.46.0",
       "Source": "Bioconductor",
       "Hash": "20158ef5adb641f0b4e8d63136f0e870"
+    },
+    "zoo": {
+      "Package": "zoo",
+      "Version": "1.8-12",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "grDevices",
+        "graphics",
+        "lattice",
+        "stats",
+        "utils"
+      ],
+      "Hash": "5c715954112b45499fb1dadc6ee6ee3e"
     }
   }
 }
