@@ -4,6 +4,7 @@
 
 library(tidyverse)
 library(ggthemes)
+library(hwep)
 
 gldf <- readRDS("./output/gl/gldf.RDS")
 
@@ -163,5 +164,36 @@ gldf %>%
 ggsave(filename = "./output/gl/gl_sens.pdf",
        plot = pl,
        height = 4,
+       width = 6,
+       family = "Times")
+
+## QQ-plot of p-values from LRT approach ---
+gldf %>%
+  filter(condition == "null", est = TRUE, priorclass == "norm") %>%
+  select(n, ploidy, p = p_mode) %>%
+  group_by(n, ploidy) %>%
+  arrange(p) %>%
+  mutate(ts = as_tibble(ts_bands(n = n()))) %>%
+  unnest(cols = "ts") %>%
+  mutate(theo = -log(q),
+         lower = -log(lower),
+         upper = -log(upper),
+         p = -p) %>%
+  mutate(ploidy = str_c("K = ", ploidy),
+         n = str_c("n = ", n)) %>%
+  ggplot() +
+  facet_wrap(ploidy ~ n, scales = "free") +
+  geom_point(aes(x = theo, y = p)) +
+  geom_ribbon(aes(x = theo, ymin = lower, ymax = upper), alpha = 1/4) +
+  geom_abline(slope = 1, intercept = 0) +
+  theme_bw() +
+  theme(strip.background = element_rect(fill = "white")) +
+  xlab("Theoretical Quantiles") +
+  ylab("Empirical Quantiles") ->
+  pl
+
+ggsave(filename = "./output/gl/gl_qq_mode.pdf",
+       plot = pl,
+       height = 6,
        width = 6,
        family = "Times")

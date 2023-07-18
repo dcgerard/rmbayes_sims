@@ -64,7 +64,8 @@ gl_plots = ./output/gl/gl_consist.pdf \
            ./output/gl/bf_compare_alt.pdf \
            ./output/gl/gl_box_gibbs.pdf \
            ./output/gl/gl_time.pdf \
-           ./output/gl/gl_sens.pdf
+           ./output/gl/gl_sens.pdf \
+           ./output/gl/gl_qq_mode.pdf
 
 ## run all scripts
 .PHONY : all
