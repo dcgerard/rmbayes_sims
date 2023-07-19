@@ -151,13 +151,13 @@
     },
     "BiocManager": {
       "Package": "BiocManager",
-      "Version": "1.30.21",
+      "Version": "1.30.21.1",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "utils"
       ],
-      "Hash": "be203e7eea75514bc1a41c1de39a9bb9"
+      "Hash": "85afdfb6010b8eb074f8d28ce4596bd7"
     },
     "BiocParallel": {
       "Package": "BiocParallel",
@@ -2679,7 +2679,7 @@
     },
     "rstantools": {
       "Package": "rstantools",
-      "Version": "2.3.1",
+      "Version": "2.3.1.1",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -2689,7 +2689,7 @@
         "stats",
         "utils"
       ],
-      "Hash": "5deb54a7658e89cc3d5ac4b534bcb344"
+      "Hash": "32d3b6fe28162eb1c430697f95f40a83"
     },
     "rstatix": {
       "Package": "rstatix",
