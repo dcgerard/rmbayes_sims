@@ -14,12 +14,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Reproduce the Analysis from @gerard2022bayesian
+# Reproduce the Analysis from @gerard2023bayesian
 
 [![NSF-2132247](https://img.shields.io/badge/NSF-2132247-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=2132247)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6993722.svg)](https://doi.org/10.5281/zenodo.6993722)
 
-This repo contains the scripts and instructions to reproduce the results of @gerard2022bayesian. 
+This repo contains the scripts and instructions to reproduce the results of @gerard2023bayesian. 
 
 ## Instructions
 

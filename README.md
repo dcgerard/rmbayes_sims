@@ -1,13 +1,13 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Reproduce the Analysis from Gerard (2022)
+# Reproduce the Analysis from Gerard (2023)
 
 [![NSF-2132247](https://img.shields.io/badge/NSF-2132247-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=2132247)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6993722.svg)](https://doi.org/10.5281/zenodo.6993722)
 
 This repo contains the scripts and instructions to reproduce the results
-of Gerard (2022).
+of Gerard (2023).
 
 ## Instructions
 
@@ -36,10 +36,11 @@ National Science Foundation.
 
 <div id="refs" class="references csl-bib-body hanging-indent">
 
-<div id="ref-gerard2022bayesian" class="csl-entry">
+<div id="ref-gerard2023bayesian" class="csl-entry">
 
-Gerard, David. 2022. “Bayesian Tests for Random Mating in Polyploids.”
-*bioRxiv*. <https://doi.org/10.1101/2022.08.11.503635>.
+Gerard, David. 2023. “Bayesian Tests for Random Mating in Polyploids.”
+*Molecular Ecology Resources* 23 (8): 1812–22.
+<https://doi.org/10.1111/1755-0998.13856>.
 
 </div>
 
